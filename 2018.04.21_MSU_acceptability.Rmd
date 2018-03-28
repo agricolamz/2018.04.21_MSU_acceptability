@@ -1,0 +1,63 @@
+---
+title: "Как начать верить элицитации?"
+author: "Г. Мороз"
+runtime: shiny
+bibliography: bibliography.bib
+output: 
+  ioslides_presentation: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+library(tidyverse)
+```
+
+## Исследования грамматичности
+
+Исследование грамматичности --- является центральным хотя и не единственным источником данных в лингвистике (ср. с корпусными, психолингвистическими и нейролингвистическими исследованиями). Лингвисты разработали достаточно большой арсенал экспериментов, позволяющих исследовать грамматичность, которые в основном различаются типом ответов, получаемым от участников:
+
+* бинарная классификация языкового примера
+* оценка языкового примера с использованием некоторой дискретной шкалы (шкалы Лайкерта, [@likert1932])
+* оценка языкового примера с использованием некоторой дискретной шкалы (Magnitude estimation, [@bard1996])
+* сравнение двух языковых примеров
+
+## Исследования грамматичности
+
+Идея, являющаяся ядром всех экспериментов на грамматичность, описана еще в работе [@galton1907]. В большинстве работ смотрят, насколько применимы разные методики экспериментов, исследующих грамматичность (), однако интерес представляет работа [@langsford2018], посвященная сравнению результатов, полученных разными методами.
+
+
+## Бета распределение
+
+```{r beta distrinution}
+inputPanel(
+  sliderInput("alpha", label = "α",
+              min = 0, max = 50, value = 20, step = 1),
+  
+  sliderInput("beta", label = "β",
+              min = 0, max = 50, value = 20, step = 1),
+  sliderInput("ci", label = "credible interval",
+              min = 0, max = 100, value = 95, step = 1)
+)
+
+renderPlot({
+  alpha <- input$alpha
+  beta <- input$beta
+  d_mean <- alpha/sum(alpha, beta)
+  ci_min <- qbeta((1-input$ci/100)/2, shape1 = alpha, shape2 = beta)
+  ci_max <- qbeta(1 - (1-input$ci/100)/2, shape1 = alpha, shape2 = beta)
+  data_frame(
+    id = seq(0, 1, length = 100),
+    density = dbeta(id, shape1 = alpha, shape2 = beta)) %>% 
+    ggplot(aes(id, density))+
+    geom_line(color = "lightblue", size = 2)+
+    geom_vline(xintercept = d_mean)+
+    geom_vline(xintercept = ci_min, linetype = 2)+
+    geom_vline(xintercept = ci_max, linetype = 2)+
+    scale_x_continuous(breaks = round(c(seq(0, 1, 0.2), d_mean), 3))+
+    theme_bw()+
+    labs(x = "probability", y = "")
+})
+```
+
+## Referenses {.smaller}

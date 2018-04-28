@@ -9,14 +9,6 @@
   publisher={Walter de Gruyter GmbH \& Co. KG}
 }
 
-@phdthesis{juzek16,
-  title={Acceptability judgement tasks and grammatical theory},
-  author={Juzek, Thomas Stephan},
-  year={2016},
-  school={University of Oxford}
-}
-
-
 @inproceedings{haussler17,
   title={Detecting and discouraging non-cooperative behavior in online experiments using an acceptability judgment task1},
   author={H{\"a}ussler, Jana and Juzek, Tom},
